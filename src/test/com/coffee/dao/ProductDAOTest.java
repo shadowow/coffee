@@ -1,5 +1,6 @@
 package com.coffee.dao;
 
+import com.coffee.logic.Desert;
 import com.coffee.logic.Drink;
 import com.coffee.logic.Product;
 import org.hibernate.Session;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
  * Created by user on 14.04.2016.
  */
 public class ProductDAOTest {
-    ProductDAO productDAO = new ProductDAO();
+    private ProductDAO productDAO = new ProductDAO();
 
     @Before
     public void setup() {
@@ -36,23 +37,39 @@ public class ProductDAOTest {
     }
 
     @Test
-    public void update() throws Exception {
-
-    }
-
-    @Test
-    public void delete() throws Exception {
-
-    }
-
-    @Test
     public void findByID() throws Exception {
+        Desert desert = new Desert();
+        desert.setName("Choco");
+        desert.setNote("Sweet!");
+        desert.setPicture("2.jpg");
+        desert.setCount(50);
+        desert.setPrice(new BigDecimal(15));
+        desert.setFirm("russia");
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            int id = productDAO.save(desert, session);
+            Desert desert1 = (Desert)productDAO.findByID(id, session).get();
+            assertEquals(desert1.getFirm(), "russia");
+            productDAO.delete(desert1, session);
+            assertFalse(productDAO.findByID(id, session).isPresent());
+        }
 
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAllBakery() throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            assertTrue(productDAO.findAllBakery(session).isEmpty());
+        }
+    }
 
+    @Test
+    public void findAllDrinks() throws Exception {
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            assertEquals(productDAO.findAllDrinks(session).size(), 1);
+            assertEquals(productDAO.findAllDrinks(session).get(0).getName(), "Coca-Cola");
+        }
     }
 
 }

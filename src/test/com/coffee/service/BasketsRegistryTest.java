@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * Created by user on 14.04.2016.
  */
 public class BasketsRegistryTest {
-    BasketsRegistry basketsRegistry = BasketsRegistry.getInstance();
+    private BasketsRegistry basketsRegistry = BasketsRegistry.getInstance();
 
     @Before
     public void setup(){
@@ -27,7 +27,7 @@ public class BasketsRegistryTest {
         BasketEntry basketEntry = new BasketEntry(1, drink);
         BasketEntry basketEntry1 = new BasketEntry(2, food);
         Basket basket = new Basket();
-        basketsRegistry.addBasket(basket);
+     //   basketsRegistry.addBasket(basket);
         basket.putInBasket(basketEntry);
         basket.putInBasket(basketEntry1);
     }

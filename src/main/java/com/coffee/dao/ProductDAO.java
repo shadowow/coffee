@@ -1,8 +1,14 @@
 package com.coffee.dao;
 
+import com.coffee.logic.Bakery;
+import com.coffee.logic.Desert;
+import com.coffee.logic.Drink;
 import com.coffee.logic.Product;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,5 +42,29 @@ public class ProductDAO {
 
     public List<Product> findAll(Session session) {
         return session.createCriteria(Product.class).list();
+    }
+
+    public List<Drink> findAllDrinks(Session session) {
+        return session.createCriteria(Drink.class).list();
+    }
+
+    public List<Drink> findDrinksByHot(boolean hot, Session session) {
+        Criteria criteria = session.createCriteria(Drink.class);
+        criteria.add(Restrictions.eq("hot", hot));
+        return criteria.list();
+    }
+
+    public List<Drink> findAllBakery(Session session) {
+        return session.createCriteria(Bakery.class).list();
+    }
+
+    public List<Drink> findBakeryByDate(Timestamp date, Session session) {
+        Criteria criteria = session.createCriteria(Bakery.class);
+        criteria.add(Restrictions.eq("date", date));
+        return criteria.list();
+    }
+
+    public List<Desert> findAllDeserts(Session session) {
+        return session.createCriteria(Desert.class).list();
     }
 }

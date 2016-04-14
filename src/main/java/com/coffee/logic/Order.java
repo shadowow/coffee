@@ -1,5 +1,7 @@
 package com.coffee.logic;
 
+import com.coffee.service.Basket;
+
 import javax.persistence.*;
 
 /**
@@ -22,13 +24,16 @@ public class Order {
     private String building;
     @Column(name = "appartment")
     private String appartment;
-    @ManyToOne(cascade = CascadeType.ALL)
+    //@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status", nullable = false)
     private Status status;
     @Column(name = "note")
     private String note;
 
-    public Order(int number, String phone, String street, String building, String appartment, Status status, String note) {
+    @Transient
+    private Basket basket;
+
+    public Order(int number, String phone, String street, String building, String appartment, Status status, String note, Basket basket) {
         this.number = number;
         this.phone = phone;
         this.street = street;
@@ -36,9 +41,21 @@ public class Order {
         this.appartment = appartment;
         this.status = status;
         this.note = note;
+
+        this.basket = basket;
+        basket.getPositions().forEach(position -> {
+            position.setOrder(this);
+        });
     }
 
-    public Order() {
+    public Order(Basket basket) {
+        this.basket = basket;
+        basket.getPositions().forEach(position -> {
+            position.setOrder(this);
+        });
+    }
+
+    private Order() {
 
     }
 
@@ -97,5 +114,16 @@ public class Order {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
+        basket.getPositions().forEach(position -> {
+            position.setOrder(this);
+        });
     }
 }
