@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "basket")
-public class Basket {
+public class BasketEntry {
 
     @Id
     @SequenceGenerator(name = "basket_seq", sequenceName = "basket_id_seq")
@@ -21,14 +21,19 @@ public class Basket {
     @JoinColumn(name = "order", nullable = false)
     private Order order;
 
-    public Basket(int id, int count, Product product, Order order) {
+    public BasketEntry(int id, int count, Product product, Order order) {
         this.id = id;
         this.count = count;
         this.productID = product.getID();
         this.order = order;
     }
 
-    public Basket() {
+    public BasketEntry(Integer count, Product product) {
+        this.count = count;
+        this.productID = product.getID();
+    }
+
+    public BasketEntry() {
 
     }
 
@@ -52,6 +57,10 @@ public class Basket {
 
     public void setProduct(Product product) {
         this.productID = product.getID();
+    }
+
+    public void setProductID(int id) {
+        this.productID = id;
     }
 
     public Order getOrder() {

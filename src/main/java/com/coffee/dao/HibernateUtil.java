@@ -18,7 +18,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Status.class)
                     .addAnnotatedClass(Order.class)
                     .addAnnotatedClass(Product.class)
-                    .addAnnotatedClass(Basket.class)
+                    .addAnnotatedClass(BasketEntry.class)
                     .addAnnotatedClass(Bakery.class)
                     .addAnnotatedClass(Desert.class)
                     .addAnnotatedClass(Drink.class)
