@@ -18,7 +18,7 @@ public class BasketEntry {
     @Column(name = "product")
     private Integer productID;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order", nullable = false)
+    @JoinColumn(name = "_order", nullable = false)
     private Order order;
 
     public BasketEntry(int id, int count, Product product, Order order) {

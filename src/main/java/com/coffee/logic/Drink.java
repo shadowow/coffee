@@ -11,8 +11,8 @@ public class Drink extends Product {
 
     @Column(name = "volume")
     private Float volume;
-    @Column(name = "type")
-    private Boolean type;
+    @Column(name = "hot")
+    private Boolean hot;
 
     public Drink(){
     }
@@ -25,11 +25,11 @@ public class Drink extends Product {
         this.volume = volume;
     }
 
-    public boolean isType() {
-        return type;
+    public boolean isHot() {
+        return hot;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
+    public void setHot(boolean hot) {
+        this.hot = hot;
     }
 }

@@ -6,12 +6,12 @@ import javax.persistence.*;
  * Created by Юленька on 27.02.2016.
  */
 @Entity
-@Table(name = "order")
+@Table(name = "_order")
 public class Order {
 
     @Id
-    @SequenceGenerator(name = "order_seq", sequenceName = "order_number_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
+    @SequenceGenerator(name = "_order_seq", sequenceName = "_order_number_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "_order_seq")
     @Column(name = "number")
     private Integer number;
     @Column(name = "phone")

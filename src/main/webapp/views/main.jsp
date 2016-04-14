@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" hot="text/css" href="/resources/css/main.css">
     <title>Kinopoisk</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
 </table>
 
 <form action="/index" method="post">
-    Search : <input type="text" name="input_par" id = "input_par">
+    Search : <input hot="text" name="input_par" id = "input_par">
     by : <select name = "option" id = "option">
     <option>Movie title</option>
     <option>Actor</option>
@@ -25,7 +25,7 @@
     <option>Genre</option>
     <option>Country</option>
 </select>
-    <input type="submit" name = "search" value="Search" id = "search"/>
+    <input hot="submit" name = "search" value="Search" id = "search"/>
 </form>
 <%
     QueryResult queryResult = null;
