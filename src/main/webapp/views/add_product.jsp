@@ -1,10 +1,10 @@
 <%@ page import="com.coffee.dao.ProductDAO" %>
 <%@ page import="com.coffee.logic.Bakery" %>
+<%@ page import="com.coffee.logic.Desert" %>
+<%@ page import="com.coffee.logic.Drink" %>
 <%@ page import="com.coffee.logic.Product" %>
 <%@ page import="java.math.BigDecimal" %>
-<%@ page import="com.coffee.logic.Desert" %>
 <%@ page import="java.sql.Timestamp" %>
-<%@ page import="com.coffee.logic.Drink" %>
 <%@ page import="java.time.LocalDateTime" %><%--
   Created by IntelliJ IDEA.
   User: user

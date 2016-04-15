@@ -1,11 +1,11 @@
+<%@ page import="com.coffee.dao.HibernateUtil" %>
 <%@ page import="com.coffee.dao.OrderDAO" %>
-<%@ page import="com.coffee.logic.Order" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.coffee.dao.StatusDAO" %>
+<%@ page import="com.coffee.logic.Order" %>
 <%@ page import="com.coffee.logic.Status" %>
 <%@ page import="org.hibernate.Session" %>
-<%@ page import="com.coffee.dao.HibernateUtil" %>
-<%@ page import="java.util.Enumeration" %><%--
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: user
   Date: 15.04.2016

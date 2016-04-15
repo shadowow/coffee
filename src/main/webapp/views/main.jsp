@@ -1,10 +1,10 @@
-<%@ page import="java.util.Optional" %>
-<%@ page import="java.util.Enumeration" %>
 <%@ page import="com.coffee.dao.ProductDAO" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.coffee.service.Basket" %>
 <%@ page import="com.coffee.logic.*" %>
+<%@ page import="com.coffee.service.Basket" %>
 <%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Optional" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

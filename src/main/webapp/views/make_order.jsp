@@ -1,11 +1,11 @@
-<%@ page import="com.coffee.service.Basket" %>
-<%@ page import="java.math.BigDecimal" %>
-<%@ page import="com.coffee.logic.BasketEntry" %>
-<%@ page import="com.coffee.logic.Product" %>
+<%@ page import="com.coffee.dao.OrderDAO" %>
 <%@ page import="com.coffee.dao.ProductDAO" %>
-<%@ page import="com.coffee.logic.Order" %>
 <%@ page import="com.coffee.dao.StatusDAO" %>
-<%@ page import="com.coffee.dao.OrderDAO" %><%--
+<%@ page import="com.coffee.logic.BasketEntry" %>
+<%@ page import="com.coffee.logic.Order" %>
+<%@ page import="com.coffee.logic.Product" %>
+<%@ page import="com.coffee.service.Basket" %>
+<%@ page import="java.math.BigDecimal" %><%--
   Created by IntelliJ IDEA.
   User: Юленька
   Date: 15.04.2016

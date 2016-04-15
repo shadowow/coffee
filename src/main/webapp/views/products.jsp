@@ -1,8 +1,8 @@
 <%@ page import="com.coffee.dao.ProductDAO" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.coffee.logic.Bakery" %>
 <%@ page import="com.coffee.logic.Desert" %>
-<%@ page import="com.coffee.logic.Drink" %><%--
+<%@ page import="com.coffee.logic.Drink" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: user
   Date: 16.04.2016
