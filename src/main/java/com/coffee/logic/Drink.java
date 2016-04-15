@@ -17,6 +17,17 @@ public class Drink extends Product {
     public Drink(){
     }
 
+    public Drink(Product product) {
+        if (product.getID() != null) {
+            setID(product.getID());
+        }
+        setPrice(product.getPrice());
+        setName(product.getName());
+        setCount(product.getCount());
+        setPicture(product.getPicture());
+        setNote(product.getNote());
+    }
+
     public float getVolume() {
         return volume;
     }

@@ -32,27 +32,11 @@ public class Order {
     @Column(name = "note")
     private String note;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = BasketEntry.class)
-    @Column(table = "basket")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<BasketEntry> basketEntrySet = new HashSet<>();
 
     @Transient
     private Basket basket;
-
-    public Order(int number, String phone, String street, String building, String appartment, Status status, String note, Basket basket) {
-        this.number = number;
-        this.phone = phone;
-        this.street = street;
-        this.building = building;
-        this.appartment = appartment;
-        this.status = status;
-        this.note = note;
-
-        this.basket = basket;
-        basket.getPositions().forEach(position -> {
-            position.setOrder(this);
-        });
-    }
 
     public Order(Basket basket) {
         this.basket = basket;
@@ -123,12 +107,13 @@ public class Order {
         this.note = note;
     }
 
-    public Set<BasketEntry> getBasketEntrySet() {
-        return basketEntrySet;
-    }
-
-    public void setBasketEntrySet(Set<BasketEntry> basketEntrySet) {
-        this.basketEntrySet = basketEntrySet;
+    public String getAddress() {
+        StringBuilder result = new StringBuilder(street + ", " + building);
+        if (appartment != null) {
+            result.append(", ");
+            result.append(appartment);
+        }
+        return result.toString();
     }
 
     public Basket getBasket() {

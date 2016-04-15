@@ -24,6 +24,15 @@ public class ProductDAO {
         return id;
     }
 
+    public Integer save(Product product) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Integer id = (Integer) session.save(product);
+            session.getTransaction().commit();
+            return id;
+        }
+    }
+
     public void update(Product product, Session session) {
         session.beginTransaction();
         session.update(product);
@@ -34,6 +43,15 @@ public class ProductDAO {
         session.beginTransaction();
         session.delete(product);
         session.getTransaction().commit();
+    }
+
+    public void delete(int id) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Product product = session.get(Product.class, id);
+            session.beginTransaction();
+            session.delete(product);
+            session.getTransaction().commit();
+        }
     }
 
     public Optional<Product> findByID(int id, Session session) {

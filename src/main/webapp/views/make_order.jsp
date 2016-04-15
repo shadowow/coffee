@@ -75,9 +75,8 @@
             if (!parameter.isEmpty()) {
                 order.setNote(parameter);
             }
-            int id = new OrderDAO().save(order);
+            new OrderDAO().save(order);
             basket.clearBasket();
-            request.setAttribute("order", id);
             request.setAttribute("phone", order.getPhone());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/final");
             dispatcher.forward(request, response);

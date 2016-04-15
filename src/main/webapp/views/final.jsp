@@ -12,7 +12,6 @@
 </head>
 <body>
 <h2>Заказ оформлен!</h2>
-Номер вашего заказа <%=request.getParameter("order")%>. <br>
 Ожидайте звонка на номер <%=request.getParameter("phone")%>
 
 <br><br>

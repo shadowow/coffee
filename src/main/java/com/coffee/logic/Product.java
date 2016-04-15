@@ -38,7 +38,7 @@ public class Product {
 
     }
 
-    public int getID() {
+    public Integer getID() {
         return id;
     }
 

@@ -38,6 +38,13 @@ public class OrderDAO {
         session.getTransaction().commit();
     }
 
+    public void delete(int id, Session session) {
+        Order order = session.get(Order.class, id);
+        session.beginTransaction();
+        session.delete(order);
+        session.getTransaction().commit();
+    }
+
     public Optional<Order> findByID(int id, Session session) {
         return Optional.ofNullable(session.get(Order.class, id));
     }
@@ -46,4 +53,9 @@ public class OrderDAO {
         return session.createCriteria(Order.class).list();
     }
 
+    public List<Order> findAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createCriteria(Order.class).list();
+        }
+    }
 }

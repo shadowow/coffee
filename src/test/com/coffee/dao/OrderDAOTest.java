@@ -2,7 +2,6 @@ package com.coffee.dao;
 
 import com.coffee.logic.*;
 import com.coffee.service.Basket;
-import com.coffee.service.BasketsRegistry;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;

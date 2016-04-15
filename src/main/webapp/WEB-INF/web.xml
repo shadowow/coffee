@@ -43,6 +43,34 @@
         <url-pattern>/final</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>orders.jsp</servlet-name>
+        <jsp-file>/views/orders.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>orders.jsp</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>products.jsp</servlet-name>
+        <jsp-file>/views/products.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>products.jsp</servlet-name>
+        <url-pattern>/products</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>add_product.jsp</servlet-name>
+        <jsp-file>/views/add_product.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>add_product.jsp</servlet-name>
+        <url-pattern>/add_product</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
