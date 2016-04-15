@@ -1,77 +1,208 @@
+<%@ page import="java.util.Optional" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="com.coffee.dao.ProductDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.coffee.service.Basket" %>
+<%@ page import="com.coffee.logic.*" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" hot="text/css" href="/resources/css/main.css">
-    <title>Kinopoisk</title>
+    <title>Coffee</title>
 </head>
 <body>
-<table id = "menu_table">
-    <tr>
-        <td>
-            <button class = "menu_btn" onclick="window.location.href=('/index')">Movies</button>
-            <button class = "menu_btn" onclick="window.location.href=('/actors')">Actors</button>
-            <button class = "menu_btn" onclick="window.location.href=('/directors')">Directors</button>
-            <!--button class = "menu_btn" onclick="window.location.href=('/search')">Advanced Search</button-->
-        </td>
-    </tr>
-</table>
+<form action="/main" method="post">
+    <table>
+        <tr>
+            <td><button type="submit" name="products_menu1">Выпечка</button></td>
+            <td><button type="submit" name="products_menu2">Десерты</button></td>
+            <td><button type="submit" name="products_menu3">Напитки</button></td>
+        </tr>
+    </table>
+    <%
+        ProductDAO productDAO = new ProductDAO();
 
-<form action="/index" method="post">
-    Search : <input hot="text" name="input_par" id = "input_par">
-    by : <select name = "option" id = "option">
-    <option>Movie title</option>
-    <option>Actor</option>
-    <option>Director</option>
-    <option>Genre</option>
-    <option>Country</option>
-</select>
-    <input hot="submit" name = "search" value="Search" id = "search"/>
-</form>
-<%
-    QueryResult queryResult = null;
-    if (request.getParameter("search") != null) {
-        String option = request.getParameter("option");
-        switch (option) {
-            case "Actor":
-                queryResult = new MovieDAO().listByActor(request.getParameter("input_par"));
-                break;
-            case "Movie title":
-                queryResult = new MovieDAO().listByTitle(request.getParameter("input_par"));
-                break;
-            case "Director":
-                queryResult = new MovieDAO().listByDirector(request.getParameter("input_par"));
-                break;
-            case "Genre":
-                queryResult = new MovieDAO().listByGenre(request.getParameter("input_par"));
-                break;
-            case "Country":
-                queryResult = new MovieDAO().listByCountry(request.getParameter("input_par"));
-                break;
+        // Берём из сессии корзину или создаём новую, если её ещё нет
+        Basket basket = (Basket) session.getAttribute("basket");
+        if (basket == null) {
+            basket = new Basket();
+            session.setAttribute("basket", basket);
         }
-    } else {
-        queryResult = new MovieDAO().listAll();
+        // Удаление из корзины
+        String productToRemove = request.getParameter("remove");
+        if (productToRemove != null) {
+            basket.removeFromBasket(Integer.parseInt(productToRemove));
+        }
+
+        // Добавляем элемент в корзину, если нажата кнопка "Добавить..."
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String parameterName = (String) parameterNames.nextElement();
+            if (parameterName.contains("add_product")) {
+                int productID = Integer.parseInt(parameterName.replace("add_product", ""));
+                int count = Integer.parseInt(request.getParameter("needed_count"+productID));
+                Optional<Product> optional = productDAO.findByID(productID);
+                if (optional.isPresent()) {
+                    Product product = optional.get();
+                    if (product.getCount() == -1 || count <= product.getCount()) {
+                        BasketEntry basketEntry = new BasketEntry(count, product);
+                        if (!basket.putInBasket(basketEntry)) {
+    %><script>alert('Продукт, который вы пытаетесь добавить, уже в корзине!');</script><%
     }
-    if (queryResult.isSuccess()) {
-%>
-<table id = "res_table">
-    <tr><th class="movie_title">Title</th><th>Poster</th><th>Description</th></tr>
-    <%
-        List<Movie> movies = (List<Movie>) queryResult.getResult();
-        for (Movie movie : movies) {
-    %>
-    <tr>
-        <td class="movie_title"><a href="/movie_details/show?id=<%=movie.getId()%>"><%=movie.getTitle()%></a></td>
-        <td><a href="/movie_details/show?id=<%=movie.getId()%>"><img src="<%=movie.getPosterURL()%>"/></a></td>
-        <td class="descr"><%=movie.getDetails()%></td>
-    </tr>
-    <%
+} else {
+%><script>alert('Вы указали большее кол-во, чем есть в наличии!');</script><%
+    }
+} else {
+%><script>alert('Не удалось добавить выбранный продукт в корзину!');</script><%
             }
-        } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/error.jsp");
-            request.setAttribute("errorMessage", queryResult.getErrorMessage());
-            dispatcher.forward(request, response);
+            break;
+        }
+    }
+        // Отрисовка корзины
+        List<BasketEntry> productsInBasket = basket.getPositions();
+    if (!productsInBasket.isEmpty()) {
+        BigDecimal total = BigDecimal.valueOf(0);
+%>
+    <h3>Ваша корзина: </h3>
+    <%  for (BasketEntry pos : productsInBasket) {
+            Product product = productDAO.findByID(pos.getProductID()).get();
+        total = total.add(product.getPrice().multiply(BigDecimal.valueOf(pos.getCount())));
+    %>
+    <li>
+        <%=product.getName()%> <%=pos.getCount()%> <%=product.getPrice()%> <a href="/main?remove=<%=pos.getProductID()%>">Убрать</a>
+    </li>
+    <%  } %>
+    ИТОГО: <%=total%>
+    <% }
+        // Определяем, какой пункт меню выбран, отрисовываем таблицы
+        parameterNames = request.getParameterNames();
+        String paramName = "none";
+        while (parameterNames.hasMoreElements()) {
+            paramName = parameterNames.nextElement();
+            if (paramName.contains("products_menu")) {
+                break;
+            } else {
+                paramName = "none";
+            }
+        }
+        if (paramName.equals("none")) {
+            paramName = "products_menu1";
+        }
+        switch (paramName) {
+            case "products_menu1":
+                List<Bakery> bakeryList = productDAO.findAllBakery();
+    %>
+    <table>
+        <tr>
+            <th>Название</th><th>Изображение</th><th>Цена</th><th>В наличии</th><th>Описание</th>
+            <th>Вес</th><th>Дата изготовления</th><th></th>
+        </tr>
+        <%
+            for (Bakery bakery : bakeryList) { %>
+        <tr>
+            <td><%=bakery.getName()%></td>
+            <td><img src="/resources/photos/<%=bakery.getPicture()%>"/></td>
+            <td><%=bakery.getPrice()%></td>
+            <td>
+                <% if (bakery.getCount()!= -1) { %>
+                <%=bakery.getCount()%>
+                <% } %>
+            </td>
+            <td><%=bakery.getNote()%></td>
+            <td><%=bakery.getWeight()%></td>
+            <td><%=bakery.getDate()%></td>
+            <td>
+                <input type="number" name="needed_count<%=bakery.getID()%>" min=1 value="1"></input>
+            </td>
+            <td>
+                <button type="submit" name="add_product<%=bakery.getID()%>">Добавить в корзину</button>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <%
+            break;
+        case "products_menu2":
+            List<Desert> deserts = productDAO.findAllDeserts();
+    %>
+    <table>
+        <tr>
+            <th>Название</th><th>Изображение</th><th>Цена</th><th>В наличии</th><th>Описание</th>
+            <th>Вес</th><th>Изготовитель</th><th></th>
+        </tr>
+        <%
+            for (Desert desert : deserts) { %>
+        <tr>
+            <td><%=desert.getName()%></td>
+            <td><img src="/resources/photos/<%=desert.getPicture()%>"/></td>
+            <td><%=desert.getPrice()%></td>
+            <td>
+                <% if (desert.getCount()!= -1) { %>
+                <%=desert.getCount()%>
+                <% } %>
+            </td>
+            <td><%=desert.getNote()%></td>
+            <td><%=desert.getWeight()%></td>
+            <td><%=desert.getFirm()%></td>
+            <td>
+                <input type="number" name="needed_count<%=desert.getID()%>" min=1 value="1"></input>
+            </td>
+            <td>
+                <button type="submit" name="add_product<%=desert.getID()%>">Добавить в корзину</button>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <%
+            break;
+        case "products_menu3":
+            List<Drink> drinks = productDAO.findAllDrinks();
+    %>
+    <table>
+        <tr>
+            <th>Название</th><th>Изображение</th><th>Цена</th><th>В наличии</th><th>Описание</th>
+            <th>Объём</th><th>Тип</th><th></th>
+        </tr>
+        <%
+            for (Drink drink : drinks) { %>
+        <tr>
+            <td><%=drink.getName()%></td>
+            <td><img src="/resources/photos/<%=drink.getPicture()%>"/></td>
+            <td><%=drink.getPrice()%></td>
+            <td>
+                <% if (drink.getCount()!= -1) { %>
+                <%=drink.getCount()%>
+                <% } %>
+            </td>
+            <td><%=drink.getNote()%></td>
+            <td><%=drink.getVolume()%></td>
+            <td>
+                <% if (drink.isHot()) { %>
+                горячий
+                <% } else { %>
+                холодный
+                <% } %>
+            </td>
+            <td>
+                <input type="number" name="needed_count<%=drink.getID()%>" min=1 value="1"></input>
+            </td>
+            <td>
+                <button type="submit" name="add_product<%=drink.getID()%>">Добавить в корзину</button>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <%
+                break;
         }
     %>
-</table>
+    <br><br>
+</form>
+<form action="/make_order" method="post">
+    <input type="submit" value="Оформить заказ"/>
+</form>
+<br><br>
+<a href="/">Вернуться в меню</a>
 </body>
 </html>

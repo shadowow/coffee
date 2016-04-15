@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,45 +16,45 @@ import static org.junit.Assert.*;
  */
 public class OrderDAOTest {
 
-    private BasketsRegistry basketsRegistry = BasketsRegistry.getInstance();
-
     private Basket basket;
+
+    private OrderDAO orderDAO = new OrderDAO();
 
     @Before
     public void setup(){
-        Product drink = new Drink();
-        Product food = new Desert();
-        drink.setID(1);
-        food.setID(2);
-        drink.setName("Cola");
-        food.setName("Chocolate");
-
+        Drink drink;
+        List<Bakery> bakeryList;
+        ProductDAO productDAO = new ProductDAO();
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            drink = productDAO.findAllDrinks(session).get(0);
+            bakeryList = productDAO.findAllBakery(session);
+        }
         BasketEntry basketEntry = new BasketEntry(1, drink);
-        BasketEntry basketEntry1 = new BasketEntry(2, food);
         basket = new Basket();
         basket.putInBasket(basketEntry);
-        basket.putInBasket(basketEntry1);
+
+        bakeryList.forEach(product -> {
+            BasketEntry basketEntry1 = new BasketEntry(1, product);
+            basket.putInBasket(basketEntry1);
+        });
     }
 
     @Test
     public void save() throws Exception {
-        OrderDAO orderDAO = new OrderDAO();
-
-
         Order order = new Order(basket);
         order.setAppartment("221B");
         order.setBuilding("122");
 
-        Status status = new Status();
-        status.setStatus("Ready");
-        order.setStatus(status);
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            int id = orderDAO.save(order, session);
+            StatusDAO statusDAO = new StatusDAO();
+            order.setStatus(statusDAO.findAll(session).get(0));
 
-            Order order1 = orderDAO.findByID(id , session).get();
+            int orderID = orderDAO.save(order, session);
+            Order order1 = orderDAO.findByID(orderID , session).get();
             assertFalse(order1.getBasket().getPositions().isEmpty());
+            orderDAO.delete(order1, session);
+            assertFalse(orderDAO.findByID(orderID, session).isPresent());
         }
     }
-
 }

@@ -8,11 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Coffee</title>
 </head>
 <body>
 <button class = "menu_btn" onclick="window.location.href=('/main')">Просмотреть товары</button>
 <button class = "menu_btn" onclick="window.location.href=('/products')">Редактировать товары</button>
 <button class = "menu_btn" onclick="window.location.href=('/orders')">Редактировать заказы</button>
+
 </body>
 </html>

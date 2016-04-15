@@ -40,6 +40,12 @@ public class ProductDAO {
         return Optional.ofNullable(session.get(Product.class, id));
     }
 
+    public Optional<Product> findByID(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return Optional.ofNullable(session.get(Product.class, id));
+        }
+    }
+
     public List<Product> findAll(Session session) {
         return session.createCriteria(Product.class).list();
     }
@@ -48,17 +54,29 @@ public class ProductDAO {
         return session.createCriteria(Drink.class).list();
     }
 
+    public List<Drink> findAllDrinks() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createCriteria(Drink.class).list();
+        }
+    }
+
     public List<Drink> findDrinksByHot(boolean hot, Session session) {
         Criteria criteria = session.createCriteria(Drink.class);
         criteria.add(Restrictions.eq("hot", hot));
         return criteria.list();
     }
 
-    public List<Drink> findAllBakery(Session session) {
+    public List<Bakery> findAllBakery(Session session) {
         return session.createCriteria(Bakery.class).list();
     }
 
-    public List<Drink> findBakeryByDate(Timestamp date, Session session) {
+    public List<Bakery> findAllBakery() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createCriteria(Bakery.class).list();
+        }
+    }
+
+    public List<Bakery> findBakeryByDate(Timestamp date, Session session) {
         Criteria criteria = session.createCriteria(Bakery.class);
         criteria.add(Restrictions.eq("date", date));
         return criteria.list();
@@ -66,5 +84,11 @@ public class ProductDAO {
 
     public List<Desert> findAllDeserts(Session session) {
         return session.createCriteria(Desert.class).list();
+    }
+
+    public List<Desert> findAllDeserts() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createCriteria(Desert.class).list();
+        }
     }
 }

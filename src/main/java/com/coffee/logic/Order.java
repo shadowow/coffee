@@ -3,6 +3,8 @@ package com.coffee.logic;
 import com.coffee.service.Basket;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Юленька on 27.02.2016.
@@ -24,11 +26,15 @@ public class Order {
     private String building;
     @Column(name = "appartment")
     private String appartment;
-    //@ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "status", nullable = false)
     private Status status;
     @Column(name = "note")
     private String note;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = BasketEntry.class)
+    @Column(table = "basket")
+    private Set<BasketEntry> basketEntrySet = new HashSet<>();
 
     @Transient
     private Basket basket;
@@ -51,6 +57,7 @@ public class Order {
     public Order(Basket basket) {
         this.basket = basket;
         basket.getPositions().forEach(position -> {
+            basketEntrySet.add(position);
             position.setOrder(this);
         });
     }
@@ -116,6 +123,14 @@ public class Order {
         this.note = note;
     }
 
+    public Set<BasketEntry> getBasketEntrySet() {
+        return basketEntrySet;
+    }
+
+    public void setBasketEntrySet(Set<BasketEntry> basketEntrySet) {
+        this.basketEntrySet = basketEntrySet;
+    }
+
     public Basket getBasket() {
         return basket;
     }
@@ -123,6 +138,7 @@ public class Order {
     public void setBasket(Basket basket) {
         this.basket = basket;
         basket.getPositions().forEach(position -> {
+            basketEntrySet.add(position);
             position.setOrder(this);
         });
     }

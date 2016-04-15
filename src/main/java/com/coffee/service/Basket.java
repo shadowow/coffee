@@ -12,8 +12,8 @@ public class Basket {
     private List<BasketEntry> positions = new ArrayList<>();
 
     public Basket() {
-        BasketsRegistry basketsRegistry = BasketsRegistry.getInstance();
-        basketsRegistry.addBasket(this);
+       // BasketsRegistry basketsRegistry = BasketsRegistry.getInstance();
+       // basketsRegistry.addBasket(this);
     }
 
     public int getId() {

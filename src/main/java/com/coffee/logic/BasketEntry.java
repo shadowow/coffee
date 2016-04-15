@@ -17,15 +17,15 @@ public class BasketEntry {
     private Integer count;
     @Column(name = "product")
     private Integer productID;
-    @ManyToOne(cascade = CascadeType.ALL)
+   /* @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "_order", nullable = false)
-    private Order order;
+    private Order order; */
 
     public BasketEntry(int id, int count, Product product, Order order) {
         this.id = id;
         this.count = count;
         this.productID = product.getID();
-        this.order = order;
+        //this.order = order;
     }
 
     public BasketEntry(Integer count, Product product) {
@@ -63,11 +63,11 @@ public class BasketEntry {
         this.productID = id;
     }
 
-    public Order getOrder() {
+   /* public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
-    }
+    }*/
 }

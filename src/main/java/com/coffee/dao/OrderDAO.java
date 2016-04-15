@@ -1,7 +1,9 @@
 package com.coffee.dao;
 
 import com.coffee.logic.Order;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,15 @@ public class OrderDAO {
         Integer id = (Integer) session.save(order);
         session.getTransaction().commit();
         return id;
+    }
+
+    public Integer save(Order order) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Integer id = (Integer) session.save(order);
+            session.getTransaction().commit();
+            return id;
+        }
     }
 
     public void update(Order order, Session session) {
