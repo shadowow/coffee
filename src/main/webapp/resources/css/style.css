@@ -1,0 +1,70 @@
+body {
+    color: brown;
+    font-size: 12pt;
+    font-family: "Comic Sans MS";
+}
+
+div {
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
+
+input {
+    width: 200px;
+
+    background: rosybrown;
+    color: white;
+    font-size: 12pt;
+    font-family: "Comic Sans MS";
+}
+
+select {
+    width: 200px;
+
+    background: white;
+    color: brown;
+    font-size: 12pt;
+    font-family: "Comic Sans MS";
+}
+
+button {
+    background: rosybrown;
+    width: 200px;
+    color: white;
+    font-size: 12pt;
+    font-family: "Comic Sans MS";
+}
+
+.editor_input {
+    background: white;
+    color: rosybrown;
+    font-size: 12pt;
+    font-family: "Comic Sans MS";
+    width: 580px;
+}
+
+table, th, td {
+    font-size: 12pt;
+    border-style: none;
+    border-width: 1px;
+    border-color: rosybrown;
+}
+
+img {
+    height: 100px;
+}
+
+.count_input {
+    width: 40px;
+}
+
+p {
+    width: 600px;
+    margin: auto;
+}
+
+#order_div {
+    width: 550px;
+    margin: auto;
+}

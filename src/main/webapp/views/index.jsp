@@ -9,11 +9,14 @@
 <html>
 <head>
     <title>Coffee</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
-<button class = "menu_btn" onclick="window.location.href=('/main')">Просмотреть товары</button> <br>
-<button class = "menu_btn" onclick="window.location.href=('/products')">Редактировать товары</button> <br>
-<button class = "menu_btn" onclick="window.location.href=('/orders')">Редактировать заказы</button> <br>
+<div>
+    <button class = "menu_btn" onclick="window.location.href=('/main')">Просмотреть товары</button> <br>
+    <button class = "menu_btn" onclick="window.location.href=('/products')">Редактировать товары</button> <br>
+    <button class = "menu_btn" onclick="window.location.href=('/orders')">Редактировать заказы</button> <br>
+</div>
 
 </body>
 </html>

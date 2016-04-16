@@ -10,16 +10,20 @@
 <head>
     <link rel="stylesheet" hot="text/css" href="/resources/css/main.css">
     <title>Coffee</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
 <form action="/main" method="post">
-    <table>
-        <tr>
-            <td><button type="submit" name="products_menu1">Выпечка</button></td>
-            <td><button type="submit" name="products_menu2">Десерты</button></td>
-            <td><button type="submit" name="products_menu3">Напитки</button></td>
-        </tr>
-    </table>
+    <p>
+        <table>
+            <tr>
+                <td><button type="submit" name="products_menu1">Выпечка</button></td>
+                <td><button type="submit" name="products_menu2">Десерты</button></td>
+                <td><button type="submit" name="products_menu3">Напитки</button></td>
+            </tr>
+        </table>
+    </p>
+
     <%
         ProductDAO productDAO = new ProductDAO();
 
@@ -113,7 +117,7 @@
             <td><%=bakery.getWeight()%></td>
             <td><%=bakery.getDate()%></td>
             <td>
-                <input type="number" name="needed_count<%=bakery.getID()%>" min=1 value="1"></input>
+                <input type="number" class="count_input" name="needed_count<%=bakery.getID()%>" min=1 value="1"></input>
             </td>
             <td>
                 <button type="submit" name="add_product<%=bakery.getID()%>">Добавить в корзину</button>
@@ -146,7 +150,7 @@
             <td><%=desert.getWeight()%></td>
             <td><%=desert.getFirm()%></td>
             <td>
-                <input type="number" name="needed_count<%=desert.getID()%>" min=1 value="1"></input>
+                <input type="number" class="count_input" name="needed_count<%=desert.getID()%>" min=1 value="1"></input>
             </td>
             <td>
                 <button type="submit" name="add_product<%=desert.getID()%>">Добавить в корзину</button>
@@ -185,7 +189,7 @@
                 <% } %>
             </td>
             <td>
-                <input type="number" name="needed_count<%=drink.getID()%>" min=1 value="1"></input>
+                <input type="number" class="count_input" name="needed_count<%=drink.getID()%>" min=1 value="1"></input>
             </td>
             <td>
                 <button type="submit" name="add_product<%=drink.getID()%>">Добавить в корзину</button>

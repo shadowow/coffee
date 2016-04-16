@@ -16,6 +16,7 @@
 <html>
 <head>
     <title>Добавление продукта</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
 <%
@@ -60,19 +61,19 @@
     <table>
         <tr>
             <th>Название: </th>
-            <td><input name="name" type="text"></td>
+            <td><input class="editor_input" name="name" type="text"></td>
         </tr>
         <tr>
             <th>Изображение: </th>
-            <td><input name="picture" type="text" placeholder="Введите локальный адрес изображения"></td>
+            <td><input class="editor_input" name="picture" type="text" placeholder="Введите локальный адрес изображения"></td>
         </tr>
         <tr>
             <th>Цена: </th>
-            <td><input name="price" step="any" type="number" min="1"></td>
+            <td><input class="editor_input" name="price" step="any" type="number" min="1"></td>
         </tr>
         <tr>
             <th>Кол-во в наличии: </th>
-            <td><input name="count" type="number" min="-1" placeholder="Введите '-1' для продуктов, которые готовятся после заказа"></td>
+            <td><input class="editor_input" name="count" type="number" min="-1" placeholder="Введите '-1' для продуктов, которые готовятся после заказа"></td>
         </tr>
         <tr>
             <th>Описание: </th>
@@ -86,11 +87,11 @@
         %>
         <tr>
             <th>Вес: </th>
-            <td><input name="weight" type="number" min="0"></td>
+            <td><input class="editor_input" name="weight" type="number" min="0"></td>
         </tr>
         <tr>
             <th>Дата изготовления: </th>
-            <td><label><input name="date" type="datetime-local"></label></td>
+            <td><label><input class="editor_input" name="date" type="datetime-local"></label></td>
         </tr>
         <%
                     break;
@@ -98,11 +99,11 @@
         %>
         <tr>
             <th>Вес: </th>
-            <td><input name="weight" type="number" min="0"></td>
+            <td><input class="editor_input" name="weight" type="number" min="0"></td>
         </tr>
         <tr>
             <th>Изготовитель: </th>
-            <td><input name="firm" type="text"></td>
+            <td><input class="editor_input" name="firm" type="text"></td>
         </tr>
         <%
                     break;
@@ -110,7 +111,7 @@
         %>
         <tr>
             <th>Объём: </th>
-            <td><input name="vol" type="number" min="0" step="any"></td>
+            <td><input class="editor_input" name="vol" type="number" min="0" step="any"></td>
         </tr>
         <tr>
             <th>Горячий напиток: </th>

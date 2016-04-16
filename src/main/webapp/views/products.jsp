@@ -13,6 +13,7 @@
 <html>
 <head>
     <title>Редактор меню</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
 <form action="/add_product" method="get">

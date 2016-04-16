@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Заказ оформлен</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
 <h2>Заказ оформлен!</h2>

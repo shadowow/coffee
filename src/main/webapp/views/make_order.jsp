@@ -16,8 +16,10 @@
 <html>
 <head>
     <title>Оформление заказа</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
+<div id = "order_div">
 <%
     Basket basket = (Basket) session.getAttribute("basket");
     if (basket == null || basket.getPositions().isEmpty()) {
@@ -85,5 +87,6 @@
 %>
 <br><br>
 <a href="/">Вернуться в меню</a>
+</div>
 </body>
 </html>

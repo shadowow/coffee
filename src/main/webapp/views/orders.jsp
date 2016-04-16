@@ -16,6 +16,7 @@
 <html>
 <head>
     <title>Заказы</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
 <h2>Заказы:</h2>
