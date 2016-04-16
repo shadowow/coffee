@@ -77,7 +77,7 @@
         </tr>
         <tr>
             <th>Описание: </th>
-            <td><textarea cols="80" rows="5" style="resize: none" name="note"></textarea></td>
+            <td><textarea cols="80" rows="5" style="resize: none" name="note" id="note"></textarea></td>
         </tr>
         <%
             String entity = request.getParameter("product_add");
@@ -123,10 +123,11 @@
         %>
     </table>
 
-    <input type="submit" name="save" value="Сохранить">
+    <input type="submit" id="save" name="save" value="Сохранить">
 </form>
 
 <br><br>
 <a href="/">Вернуться в меню</a>
+<script src="/resources/js/products.js"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@
 
 <br><br>
 <h3>Удалить продукт:</h3>
-<form method="post">
+<form action="/products" method="post">
     <%
         ProductDAO productDAO = new ProductDAO();
         // Удаление продукта

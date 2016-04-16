@@ -21,7 +21,9 @@ public class Bakery extends Product {
     }
 
     public Bakery(Product product) {
-        setID(product.getID());
+        if (product.getID() != null) {
+            setID(product.getID());
+        }
         setPrice(product.getPrice());
         setName(product.getName());
         setCount(product.getCount());
