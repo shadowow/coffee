@@ -1,8 +1,10 @@
 package com.coffee.dao;
 
 import com.coffee.logic.Order;
+import com.coffee.logic.Product;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +12,11 @@ public class OrderDAO {
 
     public Integer save(Order order, Session session) {
         session.beginTransaction();
+        order.getBasket().getPositions().forEach(pos -> {
+            Product product = pos.getProduct();
+            product.setCount(product.getCount() - pos.getCount());
+            session.update(product);
+        });
         Integer id = (Integer) session.save(order);
         session.getTransaction().commit();
         return id;
@@ -18,6 +25,11 @@ public class OrderDAO {
     public Integer save(Order order) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
+            order.getBasket().getPositions().forEach(pos -> {
+                Product product = pos.getProduct();
+                product.setCount(product.getCount() - pos.getCount());
+                session.update(product);
+            });
             Integer id = (Integer) session.save(order);
             session.getTransaction().commit();
             return id;

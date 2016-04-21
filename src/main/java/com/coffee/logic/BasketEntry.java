@@ -15,8 +15,9 @@ public class BasketEntry {
     private Integer id;
     @Column(name = "count")
     private Integer count;
-    @Column(name = "product")
-    private Integer productID;
+    @ManyToOne
+    @JoinColumn(name = "product", nullable = false)
+    private Product product;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "_order", nullable = false)
     private Order order;
@@ -24,17 +25,16 @@ public class BasketEntry {
     public BasketEntry(int id, int count, Product product, Order order) {
         this.id = id;
         this.count = count;
-        this.productID = product.getID();
+        this.product = product;
         this.order = order;
     }
 
     public BasketEntry(Integer count, Product product) {
         this.count = count;
-        this.productID = product.getID();
+        this.product = product;
     }
 
     public BasketEntry() {
-
     }
 
     public int getID() { return id; }
@@ -51,16 +51,12 @@ public class BasketEntry {
         this.count = count;
     }
 
-    public int getProductID() {
-        return productID;
+    public Product getProduct() {
+        return product;
     }
 
     public void setProduct(Product product) {
-        this.productID = product.getID();
-    }
-
-    public void setProductID(int id) {
-        this.productID = id;
+        this.product = product;
     }
 
     public Order getOrder() {

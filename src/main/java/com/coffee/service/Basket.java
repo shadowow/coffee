@@ -28,7 +28,7 @@ public class Basket {
 
     public boolean putInBasket(BasketEntry basketEntry) {
         if (positions.stream()
-                .anyMatch(entry -> entry.getProductID() == basketEntry.getProductID())) {
+                .anyMatch(entry -> entry.getProduct().getID().equals(basketEntry.getProduct().getID()))) {
             return false;
         }
         positions.add(basketEntry);
@@ -37,7 +37,7 @@ public class Basket {
 
     public void removeFromBasket(int productId) {
         Optional<BasketEntry> optional = positions.stream()
-                .filter(entry -> entry.getProductID() == productId)
+                .filter(entry -> entry.getProduct().getID() == productId)
                 .findFirst();
         if (optional.isPresent()) {
             positions.remove(optional.get());
@@ -50,7 +50,7 @@ public class Basket {
 
     public void updateCount(int productId, int count) {
         Optional<BasketEntry> optional = positions.stream()
-                .filter(entry -> entry.getProductID() == productId)
+                .filter(entry -> entry.getProduct().getID() == productId)
                 .findFirst();
         if (optional.isPresent()) {
             optional.get().setCount(count);

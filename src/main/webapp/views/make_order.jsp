@@ -31,11 +31,11 @@
 %>
 <h3>Ваша корзина: </h3>
 <%  for (BasketEntry pos : basket.getPositions()) {
-    Product product = new ProductDAO().findByID(pos.getProductID()).get();
+    Product product = pos.getProduct();
     total = total.add(product.getPrice().multiply(BigDecimal.valueOf(pos.getCount())));
 %>
 <li>
-    <%=product.getName()%> <%=pos.getCount()%> <%=product.getPrice()%> <a href="/main?remove=<%=pos.getProductID()%>">Убрать</a>
+    <%=product.getName()%> <%=pos.getCount()%> <%=product.getPrice()%> <a href="/main?remove=<%=product.getID()%>">Убрать</a>
 </li>
 <%  } %>
 ИТОГО: <%=total%>
