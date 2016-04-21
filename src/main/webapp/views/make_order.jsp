@@ -13,6 +13,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/views/errorPage.jsp"%>
 <html>
 <head>
     <title>Оформление заказа</title>
@@ -42,15 +43,15 @@
     <table>
         <tr>
             <td>Телефон</td>
-            <td><input name="phone" type="text" placeholder="Введите номер телефона"></td>
+            <td><input name="phone" id="phone_input" type="text" placeholder="Введите номер телефона"></td>
         </tr>
         <tr>
             <td>Улица</td>
-            <td><input name="street" type="text" placeholder="Введите улицу"></td>
+            <td><input name="street" id="street_input" type="text" placeholder="Введите улицу"></td>
         </tr>
         <tr>
             <td>Дом</td>
-            <td><input name="building" type="text" placeholder="Введите номер дома"></td>
+            <td><input name="building" id="building_input" type="text" placeholder="Введите номер дома"></td>
         </tr>
         <tr>
             <td>Квартира</td>
@@ -60,7 +61,7 @@
     <br>
     Примечание к заказу: <br>
     <textarea cols="80" rows="5" style="resize: none" name="note"></textarea> <br>
-    <input type="submit" name="ok_btn" value="Подтвердить">
+    <input type="submit" id="save" name="ok_btn" value="Подтвердить">
 </form>
 <%
         if (request.getParameter("ok_btn") != null) {
@@ -78,7 +79,7 @@
                 order.setNote(parameter);
             }
             new OrderDAO().save(order);
-            basket.clearBasket();
+             basket.clearBasket();
             request.setAttribute("phone", order.getPhone());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/final");
             dispatcher.forward(request, response);
@@ -88,5 +89,6 @@
 <br><br>
 <a href="/">Вернуться в меню</a>
 </div>
+<script src="/resources/js/order.js"></script>
 </body>
 </html>

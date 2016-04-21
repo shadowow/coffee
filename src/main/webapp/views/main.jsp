@@ -6,6 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Optional" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/views/errorPage.jsp"%>
 <html>
 <head>
     <link rel="stylesheet" hot="text/css" href="/resources/css/main.css">
