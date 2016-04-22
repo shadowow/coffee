@@ -12,7 +12,7 @@ public class OrderDAO {
 
     public Integer save(Order order, Session session) {
         session.beginTransaction();
-        order.getBasket().getPositions().forEach(pos -> {
+        order.getBasket().forEach(pos -> {
             Product product = pos.getProduct();
             product.setCount(product.getCount() - pos.getCount());
             session.update(product);
@@ -25,7 +25,7 @@ public class OrderDAO {
     public Integer save(Order order) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
-            order.getBasket().getPositions().forEach(pos -> {
+            order.getBasket().forEach(pos -> {
                 Product product = pos.getProduct();
                 if (product.getCount() != -1) {
                     product.setCount(product.getCount() - pos.getCount());

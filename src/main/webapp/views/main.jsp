@@ -1,10 +1,10 @@
 <%@ page import="com.coffee.dao.ProductDAO" %>
 <%@ page import="com.coffee.logic.*" %>
-<%@ page import="com.coffee.service.Basket" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Optional" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page errorPage="/views/errorPage.jsp"%>
 <html>
@@ -29,15 +29,15 @@
         ProductDAO productDAO = new ProductDAO();
 
         // Берём из сессии корзину или создаём новую, если её ещё нет
-        Basket basket = (Basket) session.getAttribute("basket");
-        if (basket == null) {
-            basket = new Basket();
-            session.setAttribute("basket", basket);
+        Order order = (Order) session.getAttribute("basket");
+        if (order == null) {
+            order = new Order();
+            session.setAttribute("basket", order);
         }
         // Удаление из корзины
         String productToRemove = request.getParameter("remove");
         if (productToRemove != null) {
-            basket.removeFromBasket(Integer.parseInt(productToRemove));
+            order.removeFromBasket(Integer.parseInt(productToRemove));
         }
 
         // Добавляем элемент в корзину, если нажата кнопка "Добавить..."
@@ -52,7 +52,7 @@
                     Product product = optional.get();
                     if (product.getCount() == -1 || count <= product.getCount()) {
                         BasketEntry basketEntry = new BasketEntry(count, product);
-                        if (!basket.putInBasket(basketEntry)) {
+                        if (!order.putInBasket(basketEntry)) {
     %><script>alert('Продукт, который вы пытаетесь добавить, уже в корзине!');</script><%
     }
 } else {
@@ -65,7 +65,7 @@
         }
     }
         // Отрисовка корзины
-        List<BasketEntry> productsInBasket = basket.getPositions();
+        Set<BasketEntry> productsInBasket = order.getBasket();
     if (!productsInBasket.isEmpty()) {
         BigDecimal total = BigDecimal.valueOf(0);
 %>

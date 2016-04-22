@@ -28,7 +28,7 @@ public class Product {
     private int count;
     @Column(name = "note")
     private String note;
-    /*@OneToMany//(cascade = CascadeType.REMOVE)
+  /*  @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product")
     private Set<BasketEntry> baskets = new HashSet<>();*/
 

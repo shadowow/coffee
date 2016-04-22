@@ -1,10 +1,8 @@
 <%@ page import="com.coffee.dao.OrderDAO" %>
-<%@ page import="com.coffee.dao.ProductDAO" %>
 <%@ page import="com.coffee.dao.StatusDAO" %>
 <%@ page import="com.coffee.logic.BasketEntry" %>
 <%@ page import="com.coffee.logic.Order" %>
 <%@ page import="com.coffee.logic.Product" %>
-<%@ page import="com.coffee.service.Basket" %>
 <%@ page import="java.math.BigDecimal" %><%--
   Created by IntelliJ IDEA.
   User: Юленька
@@ -23,15 +21,15 @@
 <div id = "order_div">
 <%
     request.setCharacterEncoding("UTF-8");
-    Basket basket = (Basket) session.getAttribute("basket");
-    if (basket == null || basket.getPositions().isEmpty()) {
+    Order order = (Order) session.getAttribute("basket");
+    if (order == null || order.getBasket().isEmpty()) {
 %>
 <h2>Ваша корзина пуста.</h2>
 <%  } else {
     BigDecimal total = BigDecimal.valueOf(0);
 %>
 <h3>Ваша корзина: </h3>
-<%  for (BasketEntry pos : basket.getPositions()) {
+<%  for (BasketEntry pos : order.getBasket()) {
     Product product = pos.getProduct();
     total = total.add(product.getPrice().multiply(BigDecimal.valueOf(pos.getCount())));
 %>
@@ -66,7 +64,6 @@
 </form>
 <%
         if (request.getParameter("ok_btn") != null) {
-            Order order = new Order(basket);
             order.setStatus(new StatusDAO().findByName("Ожидание подтверждения").get());
             order.setPhone(request.getParameter("phone"));
             order.setStreet(request.getParameter("street"));
@@ -80,7 +77,7 @@
                 order.setNote(parameter);
             }
             new OrderDAO().save(order);
-             basket.clearBasket();
+            order = new Order();
             request.setAttribute("phone", order.getPhone());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/final");
             dispatcher.forward(request, response);

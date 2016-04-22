@@ -1,10 +1,7 @@
 package com.coffee.logic;
 
-import com.coffee.service.Basket;
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Юленька on 27.02.2016.
@@ -33,28 +30,12 @@ public class Order {
     private String note;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private Set<BasketEntry> basketEntrySet = new HashSet<>();
+    private Set<BasketEntry> basket = new HashSet<>();
 
-    @Transient
-    private Basket basket;
-
-    public Order(Basket basket) {
-        this.basket = basket;
-        basket.getPositions().forEach(position -> {
-            basketEntrySet.add(position);
-            position.setOrder(this);
-        });
-    }
-
-    private Order() {
-        basket = new Basket();
-        basketEntrySet.forEach(basketEntry -> {
-            basket.putInBasket(basketEntry);
-        });
+    public Order() {
     }
 
     public int getNumber() {
-
         return number;
     }
 
@@ -119,15 +100,44 @@ public class Order {
         return result.toString();
     }
 
-    public Basket getBasket() {
-        return basket;
+    public Set<BasketEntry> getBasket() {
+        return Collections.unmodifiableSet(basket);
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-        basket.getPositions().forEach(position -> {
-            basketEntrySet.add(position);
-            position.setOrder(this);
-        });
+
+    public boolean putInBasket(BasketEntry basketEntry) {
+        if (basket.stream()
+                .anyMatch(entry -> entry.getProduct().getID().equals(basketEntry.getProduct().getID()))) {
+            return false;
+        }
+        basketEntry.setOrder(this);
+        basket.add(basketEntry);
+        return true;
+    }
+
+    public void removeFromBasket(int productId) {
+        Optional<BasketEntry> optional = basket.stream()
+                .filter(entry -> entry.getProduct().getID() == productId)
+                .findFirst();
+        if (optional.isPresent()) {
+            basket.remove(optional.get());
+        }
+    }
+
+    public void removeFromBasket(BasketEntry basketEntry) {
+        basket.remove(basketEntry);
+    }
+
+    public void updateCount(int productId, int count) {
+        Optional<BasketEntry> optional = basket.stream()
+                .filter(entry -> entry.getProduct().getID() == productId)
+                .findFirst();
+        if (optional.isPresent()) {
+            optional.get().setCount(count);
+        }
+    }
+
+    public void clearBasket() {
+        basket = new HashSet<>();
     }
 }

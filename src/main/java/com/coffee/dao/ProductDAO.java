@@ -6,8 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by user on 14.04.2016.
@@ -49,14 +51,20 @@ public class ProductDAO {
             criteria.add(Restrictions.eq("product", product));
             List<BasketEntry> basketEntryList = criteria.list();
             if (!basketEntryList.isEmpty()) {
-                int orderNumber = basketEntryList.get(0).getOrder().getNumber();
+                Set<Integer> orderNumbersSet = new HashSet<>();
                 basketEntryList.forEach(entry -> {
+                    Order order = entry.getOrder();
+                    orderNumbersSet.add(order.getNumber());
+                    order.removeFromBasket(entry);
+                    session.update(order);
                     session.delete(entry);
                 });
-                Order order = session.get(Order.class, orderNumber);
-                if (order.getBasket().getPositions().isEmpty()) {
-                    session.delete(order);
-                }
+                orderNumbersSet.forEach(orderNumber -> {
+                    Order order = session.get(Order.class, orderNumber);
+                    if (order.getBasket().isEmpty()) {
+                        session.delete(order);
+                    }
+                });
             }
             session.delete(product);
             session.getTransaction().commit();
