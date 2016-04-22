@@ -17,6 +17,21 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>
 <body>
+<%
+    ProductDAO productDAO = new ProductDAO();
+    // Удаление продукта
+    Integer id;
+    if (request.getParameter("bakery_delete") != null) {
+        id = Integer.parseInt(request.getParameter("bakery_select"));
+        productDAO.delete(id);
+    } else if (request.getParameter("desert_delete") != null) {
+        id = Integer.parseInt(request.getParameter("desert_select"));
+        productDAO.delete(id);
+    } else if (request.getParameter("drink_delete") != null) {
+        id = Integer.parseInt(request.getParameter("drink_select"));
+        productDAO.delete(id);
+    }
+%>
 <form action="/add_product" method="get">
     <h3>Добавить новый продукт:</h3>
     <select name="product_add">
@@ -25,27 +40,10 @@
         <option>Напитки</option>
     </select>
     <input type="submit" name="add" value="Добавить">
+    <br><br>
 </form>
-
-
-<br><br>
-<h3>Удалить продукт:</h3>
-<form action="/products" method="post">
-    <%
-        ProductDAO productDAO = new ProductDAO();
-        // Удаление продукта
-        Integer id;
-        if (request.getParameter("bakery_delete") != null) {
-            id = Integer.parseInt(request.getParameter("bakery_select"));
-            productDAO.delete(id);
-        } else if (request.getParameter("desert_delete") != null) {
-            id = Integer.parseInt(request.getParameter("desert_select"));
-            productDAO.delete(id);
-        } else if (request.getParameter("drink_delete") != null) {
-            id = Integer.parseInt(request.getParameter("drink_select"));
-            productDAO.delete(id);
-        }
-    %>
+<form action="/add_product" method="get">
+    <h3>Редактировать продукт:</h3>
     <select name="bakery_select">
         <%
             List<Bakery> bakeryList = productDAO.findAllBakery();
@@ -54,7 +52,7 @@
         <option value="<%=bakery.getID()%>"><%=bakery.getName()%></option>
         <% } %>
     </select>
-    <input type="submit" name="bakery_delete" value="Удалить изделие">
+    <input type="submit" name="edit" value="Редактировать изделие">
     <br>
 
     <select name="desert_select">
@@ -65,12 +63,45 @@
         <option value="<%=desert.getID()%>"><%=desert.getName()%></option>
         <% } %>
     </select>
-    <input type="submit" name="desert_delete" value="Удалить десерт">
+    <input type="submit" name="edit" value="Редактировать десерт">
     <br>
 
     <select name="drink_select">
         <%
             List<Drink> drinks = productDAO.findAllDrinks();
+            for (Drink drink : drinks) {
+        %>
+        <option value="<%=drink.getID()%>"><%=drink.getName()%></option>
+        <% } %>
+    </select>
+    <input type="submit" name="edit" value="Редактировать напиток">
+</form>
+<br><br>
+
+<form action="/products" method="post">
+
+    <select name="bakery_select">
+        <%
+            for (Bakery bakery : bakeryList) {
+        %>
+        <option value="<%=bakery.getID()%>"><%=bakery.getName()%></option>
+        <% } %>
+    </select>
+    <input type="submit" name="bakery_delete" value="Удалить изделие">
+    <br>
+
+    <select name="desert_select">
+        <%
+            for (Desert desert : deserts) {
+        %>
+        <option value="<%=desert.getID()%>"><%=desert.getName()%></option>
+        <% } %>
+    </select>
+    <input type="submit" name="desert_delete" value="Удалить десерт">
+    <br>
+
+    <select name="drink_select">
+        <%
             for (Drink drink : drinks) {
         %>
         <option value="<%=drink.getID()%>"><%=drink.getName()%></option>
