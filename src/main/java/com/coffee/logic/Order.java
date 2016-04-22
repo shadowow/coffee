@@ -1,7 +1,10 @@
 package com.coffee.logic;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by Юленька on 27.02.2016.

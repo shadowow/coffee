@@ -68,7 +68,6 @@
                     case "Редактировать изделие":
                         entity = Entity.BAKERY;
                         int id = Integer.parseInt(request.getParameter("bakery_select"));
-                        // Optional<Bakery> result = new ProductDAO().findBakeryByID(id);
                         Optional<Product> result = new ProductDAO().findByID(id);
                         if (result.isPresent()) {
                             Bakery bakery = (Bakery) result.get();
@@ -77,7 +76,6 @@
                             price = String.valueOf(bakery.getPrice());
                             count = String.valueOf(bakery.getCount());
                             note = bakery.getNote();
-                            //  date = LocalDateTime.parse(String.valueOf(bakery.getDate()), DateTimeFormatter.ofPattern("YYYY-mm-DD hh:MM:ss.msms"));
                             date = bakery.getDate().toLocalDateTime();
                             weight = String.valueOf(bakery.getWeight());
                             session.setAttribute("id", id);

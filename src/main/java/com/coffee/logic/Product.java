@@ -2,8 +2,6 @@ package com.coffee.logic;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Юленька on 26.02.2016.
