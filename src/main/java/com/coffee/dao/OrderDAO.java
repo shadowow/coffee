@@ -27,7 +27,9 @@ public class OrderDAO {
             session.beginTransaction();
             order.getBasket().getPositions().forEach(pos -> {
                 Product product = pos.getProduct();
-                product.setCount(product.getCount() - pos.getCount());
+                if (product.getCount() != -1) {
+                    product.setCount(product.getCount() - pos.getCount());
+                }
                 session.update(product);
             });
             Integer id = (Integer) session.save(order);

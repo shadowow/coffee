@@ -18,6 +18,8 @@
     <button class = "menu_btn" onclick="window.location.href=('/products')">Редактировать товары</button> <br>
     <button class = "menu_btn" onclick="window.location.href=('/orders')">Редактировать заказы</button> <br>
 </div>
-
+<%
+    session.removeAttribute("id");
+%>
 </body>
 </html>

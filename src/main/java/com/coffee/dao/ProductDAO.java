@@ -1,9 +1,6 @@
 package com.coffee.dao;
 
-import com.coffee.logic.Bakery;
-import com.coffee.logic.Desert;
-import com.coffee.logic.Drink;
-import com.coffee.logic.Product;
+import com.coffee.logic.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -48,6 +45,19 @@ public class ProductDAO {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             Product product = session.get(Product.class, id);
             session.beginTransaction();
+            Criteria criteria = session.createCriteria(BasketEntry.class);
+            criteria.add(Restrictions.eq("product", product));
+            List<BasketEntry> basketEntryList = criteria.list();
+            if (!basketEntryList.isEmpty()) {
+                int orderNumber = basketEntryList.get(0).getOrder().getNumber();
+                basketEntryList.forEach(entry -> {
+                    session.delete(entry);
+                });
+                Order order = session.get(Order.class, orderNumber);
+                if (order.getBasket().getPositions().isEmpty()) {
+                    session.delete(order);
+                }
+            }
             session.delete(product);
             session.getTransaction().commit();
         }

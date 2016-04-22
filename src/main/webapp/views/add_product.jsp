@@ -63,72 +63,78 @@
         // Если перешли, чтобы изменить продукт:
         entityString = request.getParameter("edit");
         if (entityString != null) {
-            switch (entityString) {
-                case "Редактировать изделие":
-                    entity = Entity.BAKERY;
-                    int id = Integer.parseInt(request.getParameter("bakery_select"));
-                   // Optional<Bakery> result = new ProductDAO().findBakeryByID(id);
-                    Optional<Product> result = new ProductDAO().findByID(id);
-                    if (result.isPresent()) {
-                        Bakery bakery = (Bakery) result.get();
-                        name = bakery.getName();
-                        picture = bakery.getPicture();
-                        price = String.valueOf(bakery.getPrice());
-                        count = String.valueOf(bakery.getCount());
-                        note = bakery.getNote();
-                      //  date = LocalDateTime.parse(String.valueOf(bakery.getDate()), DateTimeFormatter.ofPattern("YYYY-mm-DD hh:MM:ss.msms"));
-                        date = bakery.getDate().toLocalDateTime();
-                        weight = String.valueOf(bakery.getWeight());
-                        session.setAttribute("id", id);
-                    } else {
+            try {
+                switch (entityString) {
+                    case "Редактировать изделие":
+                        entity = Entity.BAKERY;
+                        int id = Integer.parseInt(request.getParameter("bakery_select"));
+                        // Optional<Bakery> result = new ProductDAO().findBakeryByID(id);
+                        Optional<Product> result = new ProductDAO().findByID(id);
+                        if (result.isPresent()) {
+                            Bakery bakery = (Bakery) result.get();
+                            name = bakery.getName();
+                            picture = bakery.getPicture();
+                            price = String.valueOf(bakery.getPrice());
+                            count = String.valueOf(bakery.getCount());
+                            note = bakery.getNote();
+                            //  date = LocalDateTime.parse(String.valueOf(bakery.getDate()), DateTimeFormatter.ofPattern("YYYY-mm-DD hh:MM:ss.msms"));
+                            date = bakery.getDate().toLocalDateTime();
+                            weight = String.valueOf(bakery.getWeight());
+                            session.setAttribute("id", id);
+                        } else {
 %>
 <script>alert('Не удалось найти продукт в базе данных!');</script>
 <%
-                    }
-                    break;
-                case "Редактировать десерт":
-                    entity = Entity.DESERT;
-                    id = Integer.parseInt(request.getParameter("desert_select"));
-                    Optional<Desert> resultDesert = new ProductDAO().findDesertByID(id);
-                    if (resultDesert.isPresent()) {
-                        Desert desert = resultDesert.get();
-                        name = desert.getName();
-                        picture = desert.getPicture();
-                        price = String.valueOf(desert.getPrice());
-                        count = String.valueOf(desert.getCount());
-                        note = desert.getNote();
-                        firm = desert.getFirm();
-                        weight = String.valueOf(desert.getWeight());
-                        session.setAttribute("id", id);
-                    } else {
+        }
+        break;
+    case "Редактировать десерт":
+        entity = Entity.DESERT;
+        id = Integer.parseInt(request.getParameter("desert_select"));
+        Optional<Desert> resultDesert = new ProductDAO().findDesertByID(id);
+        if (resultDesert.isPresent()) {
+            Desert desert = resultDesert.get();
+            name = desert.getName();
+            picture = desert.getPicture();
+            price = String.valueOf(desert.getPrice());
+            count = String.valueOf(desert.getCount());
+            note = desert.getNote();
+            firm = desert.getFirm();
+            weight = String.valueOf(desert.getWeight());
+            session.setAttribute("id", id);
+        } else {
 %>
 <script>alert('Не удалось найти продукт в базе данных!');</script>
 <%
-                    }
-                    break;
-                case "Редактировать напиток":
-                    entity = Entity.DRINK;
-                    id = Integer.parseInt(request.getParameter("drink_select"));
-                    Optional<Drink> resultDrink = new ProductDAO().findDrinkByID(id);
-                    if (resultDrink.isPresent()) {
-                        Drink drink = resultDrink.get();
-                        name = drink.getName();
-                        picture = drink.getPicture();
-                        price = String.valueOf(drink.getPrice());
-                        count = String.valueOf(drink.getCount());
-                        note = drink.getNote();
-                        volume = String.valueOf(drink.getVolume());
-                        hot = drink.isHot();
-                        session.setAttribute("id", id);
-                    } else {
+        }
+        break;
+    case "Редактировать напиток":
+        entity = Entity.DRINK;
+        id = Integer.parseInt(request.getParameter("drink_select"));
+        Optional<Drink> resultDrink = new ProductDAO().findDrinkByID(id);
+        if (resultDrink.isPresent()) {
+            Drink drink = resultDrink.get();
+            name = drink.getName();
+            picture = drink.getPicture();
+            price = String.valueOf(drink.getPrice());
+            count = String.valueOf(drink.getCount());
+            note = drink.getNote();
+            volume = String.valueOf(drink.getVolume());
+            hot = drink.isHot();
+            session.setAttribute("id", id);
+        } else {
 %>
 <script>alert('Не удалось найти продукт в базе данных!');</script>
 <%
-                    }
-                    break;
-                default:
-                    entity = Entity.BAKERY;
-                    break;
+                        }
+                        break;
+                    default:
+                        entity = Entity.BAKERY;
+                        break;
+                }
+            } catch (NumberFormatException e) {
+%>
+<script>alert('Не удалось найти продукт в базе данных!');</script>
+<%
             }
             session.setAttribute("entity", entity);
         }

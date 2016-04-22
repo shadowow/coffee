@@ -22,6 +22,7 @@
 <body>
 <div id = "order_div">
 <%
+    request.setCharacterEncoding("UTF-8");
     Basket basket = (Basket) session.getAttribute("basket");
     if (basket == null || basket.getPositions().isEmpty()) {
 %>

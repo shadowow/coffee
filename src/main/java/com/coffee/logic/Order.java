@@ -47,7 +47,10 @@ public class Order {
     }
 
     private Order() {
-
+        basket = new Basket();
+        basketEntrySet.forEach(basketEntry -> {
+            basket.putInBasket(basketEntry);
+        });
     }
 
     public int getNumber() {

@@ -18,18 +18,23 @@
 </head>
 <body>
 <%
+    session.removeAttribute("id");
     ProductDAO productDAO = new ProductDAO();
     // Удаление продукта
     Integer id;
-    if (request.getParameter("bakery_delete") != null) {
-        id = Integer.parseInt(request.getParameter("bakery_select"));
-        productDAO.delete(id);
-    } else if (request.getParameter("desert_delete") != null) {
-        id = Integer.parseInt(request.getParameter("desert_select"));
-        productDAO.delete(id);
-    } else if (request.getParameter("drink_delete") != null) {
-        id = Integer.parseInt(request.getParameter("drink_select"));
-        productDAO.delete(id);
+    try {
+        if (request.getParameter("bakery_delete") != null) {
+            id = Integer.parseInt(request.getParameter("bakery_select"));
+            productDAO.delete(id);
+        } else if (request.getParameter("desert_delete") != null) {
+            id = Integer.parseInt(request.getParameter("desert_select"));
+            productDAO.delete(id);
+        } else if (request.getParameter("drink_delete") != null) {
+            id = Integer.parseInt(request.getParameter("drink_select"));
+            productDAO.delete(id);
+        }
+    } catch (NumberFormatException e) {
+
     }
 %>
 <form action="/add_product" method="get">

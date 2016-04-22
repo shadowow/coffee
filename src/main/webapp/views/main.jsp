@@ -107,7 +107,7 @@
             for (Bakery bakery : bakeryList) { %>
         <tr>
             <td><%=bakery.getName()%></td>
-            <td><img src="/resources/photos/<%=bakery.getPicture()%>"/></td>
+            <td><img src="<%=bakery.getPicture()%>"/></td>
             <td><%=bakery.getPrice()%></td>
             <td>
                 <% if (bakery.getCount()!= -1) { %>
@@ -140,7 +140,7 @@
             for (Desert desert : deserts) { %>
         <tr>
             <td><%=desert.getName()%></td>
-            <td><img src="/resources/photos/<%=desert.getPicture()%>"/></td>
+            <td><img src="<%=desert.getPicture()%>"/></td>
             <td><%=desert.getPrice()%></td>
             <td>
                 <% if (desert.getCount()!= -1) { %>
@@ -173,7 +173,7 @@
             for (Drink drink : drinks) { %>
         <tr>
             <td><%=drink.getName()%></td>
-            <td><img src="/resources/photos/<%=drink.getPicture()%>"/></td>
+            <td><img src="<%=drink.getPicture()%>"/></td>
             <td><%=drink.getPrice()%></td>
             <td>
                 <% if (drink.getCount()!= -1) { %>

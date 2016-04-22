@@ -2,6 +2,8 @@ package com.coffee.logic;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Юленька on 26.02.2016.
@@ -26,6 +28,9 @@ public class Product {
     private int count;
     @Column(name = "note")
     private String note;
+    /*@OneToMany//(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "product")
+    private Set<BasketEntry> baskets = new HashSet<>();*/
 
     public Product(String name, String picture, BigDecimal price, int count) {
         this.name = name;
