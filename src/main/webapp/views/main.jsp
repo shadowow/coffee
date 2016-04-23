@@ -9,7 +9,6 @@
 <%@ page errorPage="/views/errorPage.jsp"%>
 <html>
 <head>
-    <link rel="stylesheet" hot="text/css" href="/resources/css/main.css">
     <title>Coffee</title>
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 </head>

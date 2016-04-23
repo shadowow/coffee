@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public class OrderDAO {
 
+    private DAO dao = new DAO();
+
     public Integer save(Order order, Session session) {
         session.beginTransaction();
         order.getBasket().forEach(pos -> {
@@ -22,7 +24,7 @@ public class OrderDAO {
     }
 
     public Integer save(Order order) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession()) {
             session.beginTransaction();
             order.getBasket().forEach(pos -> {
                 Product product = pos.getProduct();
@@ -65,7 +67,7 @@ public class OrderDAO {
     }
 
     public List<Order> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return session.createCriteria(Order.class).list();
         }
     }

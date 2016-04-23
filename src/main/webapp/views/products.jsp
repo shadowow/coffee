@@ -76,7 +76,7 @@
             List<Drink> drinks = productDAO.findAllDrinks();
             for (Drink drink : drinks) {
         %>
-        <option value="<%=drink.getID()%>"><%=drink.getName()%></option>
+        <option value="<%=drink.getID()%>"><%=drink.getName()+" "+ drink.getVolume()%></option>
         <% } %>
     </select>
     <input type="submit" name="edit" value="Редактировать напиток">
@@ -109,7 +109,7 @@
         <%
             for (Drink drink : drinks) {
         %>
-        <option value="<%=drink.getID()%>"><%=drink.getName()%></option>
+        <option value="<%=drink.getID()%>"><%=drink.getName()+" "+ drink.getVolume()%></option>
         <% } %>
     </select>
     <input type="submit" name="drink_delete" value="Удалить напиток">

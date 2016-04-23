@@ -13,6 +13,8 @@ import java.util.Optional;
  */
 public class StatusDAO {
 
+    private DAO dao = new DAO();
+
     public Integer save(Status status, Session session) {
         session.beginTransaction();
         Integer id = (Integer) session.save(status);
@@ -37,7 +39,7 @@ public class StatusDAO {
     }
 
     public Optional<Status> findByName(String status) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             Criteria criteria = session.createCriteria(Status.class);
             criteria.add(Restrictions.eq("status", status));
             return Optional.ofNullable((Status)criteria.list().get(0));

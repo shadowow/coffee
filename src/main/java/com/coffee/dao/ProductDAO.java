@@ -16,6 +16,8 @@ import java.util.Set;
  */
 public class ProductDAO {
 
+    private DAO dao = new DAO();
+
     public Integer save(Product product, Session session) {
         session.beginTransaction();
         Integer id = (Integer) session.save(product);
@@ -24,7 +26,7 @@ public class ProductDAO {
     }
 
     public void save(Product product) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession()) {
             session.beginTransaction();
             session.saveOrUpdate(product);
             session.getTransaction().commit();
@@ -44,7 +46,7 @@ public class ProductDAO {
     }
 
     public void delete(int id) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             Product product = session.get(Product.class, id);
             session.beginTransaction();
             Criteria criteria = session.createCriteria(BasketEntry.class);
@@ -76,25 +78,25 @@ public class ProductDAO {
     }
 
     public Optional<Product> findByID(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return Optional.ofNullable(session.get(Product.class, id));
         }
     }
 
     public Optional<Bakery> findBakeryByID(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession()) {
             return Optional.ofNullable(session.get(Bakery.class, id));
         }
     }
 
     public Optional<Drink> findDrinkByID(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession()) {
             return Optional.ofNullable(session.get(Drink.class, id));
         }
     }
 
     public Optional<Desert> findDesertByID(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return Optional.ofNullable(session.get(Desert.class, id));
         }
     }
@@ -108,7 +110,7 @@ public class ProductDAO {
     }
 
     public List<Drink> findAllDrinks() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return session.createCriteria(Drink.class).list();
         }
     }
@@ -124,7 +126,7 @@ public class ProductDAO {
     }
 
     public List<Bakery> findAllBakery() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return session.createCriteria(Bakery.class).list();
         }
     }
@@ -140,7 +142,7 @@ public class ProductDAO {
     }
 
     public List<Desert> findAllDeserts() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = dao.openSession())  {
             return session.createCriteria(Desert.class).list();
         }
     }
